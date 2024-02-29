@@ -1,0 +1,67 @@
+.container {
+  max-width: 800px; /* ajustez la largeur selon vos besoins */
+  margin: 0 auto; /* centre le conteneur horizontalement */
+  padding: 20px;
+}
+
+.message {
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+.from {
+  background-color: rgb(224, 224, 224); /* couleur de fond pour les messages de l'expéditeur */
+}
+
+.to {
+  background-color: #c8d9f0; /* couleur de fond pour les messages du destinataire */
+}
+
+.input-group {
+  position: fixed;
+  margin-left: 35px;
+  bottom: 0;
+  left: 50%; /* Place la div au milieu horizontalement */
+  transform: translateX(-50%); /* Décale la div de 50% de sa propre largeur vers la gauche */
+  width: 80%; /* ajustez la largeur selon vos besoins */
+  background-color: #fff; /* Vous pouvez ajuster la couleur de fond selon vos besoins */
+  padding: 12px;
+  box-shadow: 0px -2px 5px 0px rgba(0,0,0,0.1); /* Ajoute une légère ombre sous la div */
+  z-index: 999; /* Assure que la div est au-dessus du contenu */
+}
+
+
+
+.avatar img {
+  width: 40px; /* Taille souhaitée */
+  height: 40px; /* Taille souhaitée */
+  border-radius: 50%; /* Rend l'image circulaire */
+  object-fit: cover; /* Garantit que l'image remplit entièrement le cercle */
+  margin-right: 10px; /* Marge à droite pour l'espace entre l'avatar et le message */
+}
+
+.btn-send {
+  background-color: #030640; /* Couleur de fond du bouton */
+  color: white; /* Couleur du texte du bouton */
+  border: 2px solid #030640; /* Bordure du bouton */
+}
+.message-input-row {
+  display: flex; /* Make the row a flex container */
+  justify-content: space-between; /* Align items at both ends */
+}
+.btn-outline-primary {
+    background: #030640!;
+    border-radius: 15px;
+    background-color: #030640;
+    color: white;
+    border: 2px solid #030640;
+    margin: 0;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+}
+

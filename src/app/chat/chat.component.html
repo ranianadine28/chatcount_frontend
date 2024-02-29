@@ -1,0 +1,109 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-white mt-0">
+    <div class="container-fluid">
+        <!-- Logo à gauche -->
+        <span class="avatar"
+          ><img
+            class="round"
+            [src]="'assets/logo.png'"
+            alt="avatar"
+            height="40"
+            width="40" /><span class="avatar-status-online"></span
+        ></span>
+
+        <!-- Contenu du menu -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <!-- Liens de navigation -->
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <!-- Vous pouvez ajouter d'autres liens de navigation ici -->
+            </ul>
+
+            <!-- Icônes d'avatar et de mode -->
+            <ul class="navbar-nav mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="darkModeToggle">
+                      <span class="avatar"
+                      ><img
+                        class="round"
+                        [src]="'assets/mode-nuit.png'"
+                        alt="avatar"
+                        height="30"
+                        width="30" /><span class="avatar-status-online"></span
+                    ></span>                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <span class="avatar"
+                        ><img
+                          class="round"
+                          [src]="'assets/avatar-s-8.jpg'"
+                          alt="avatar"
+                          height="40"
+                          width="40" /><span class="avatar-status-online"></span
+                      ></span>                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#">Profil</a></li>
+                        <li><a class="dropdown-item" href="#">Déconnexion</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container p-5">
+    <div class="row">
+      <div class="col-12">
+        <div class="row">
+          <div class="column"></div>
+          <div class="column column-50">
+            <ng-container *ngFor="let message of messages">
+              <div class="message-container">
+              
+                <div class="message avatar" [ngClass]="{from: message.author === 'bot', to: message.author === 'user'}">
+                    <img *ngIf="message.author === 'user'" src="https://i.ibb.co/d5b84Xw/Untitled-design.png" alt="Avatar Utilisateur">
+                    <img *ngIf="message.author === 'bot'" src="https://i.ibb.co/fSNP7Rz/icons8-chatgpt-512.png" alt="Avatar Bot">
+                  {{ message.content }}
+                </div>
+              </div>
+            </ng-container>
+            <div class="container p-5">
+              <div class="row">
+                <div class="col-12">
+                  <div class="row">
+                    <div class="column"></div>
+                    <div class="column column-50">
+                      <div class="row message-input-row"> <div class="col-md-6">
+                          <ng-container *ngFor="let message of messages">
+                            <div class="message-container">
+                              ...
+                            </div>
+                          </ng-container>
+                       
+                          <div class="grid-container">
+                            <div class="col-md-6">
+                              <ng-container *ngFor="let message of messages">
+                                <div class="message-container">
+                                  ...
+                                </div>
+                              </ng-container>
+                              <div class="input-group mb-0">
+                                <button type="button" class="btn btn-outline-primary" id="import-fec-button" #importFecButton>
+                                  <i class="fa fa-file-import"></i> Importer votre FEC
+                                </button>
+                                <input [(ngModel)]="value" (keyup.enter)="sendMessage()" type="text" class="form-control" placeholder="ChatCount message..." aria-label="ChatCount message" aria-describedby="button-addon2">
+                                <button (click)="sendMessage()" class="btn btn-outline-primary btn-send" type="button" id="button-addon2">Send</button>
+                              </div>
+                            </div>
+                           
+                            
+                          </div>
+                          
+                        </div>
+                      </div>
+                    </div>
+                    <div class="column"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            

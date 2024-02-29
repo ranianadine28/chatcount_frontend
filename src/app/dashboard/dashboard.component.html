@@ -1,0 +1,64 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-white mt-0">
+    <div class="container-fluid">
+        <!-- Logo à gauche -->
+        <a class="navbar-brand" href="#">
+          <span class="avatar"
+          ><img
+            class="round"
+            [src]="'assets/logo.png'"
+            alt="avatar"
+            height="40"
+            width="40" /><span class="avatar-status-online"></span
+        ></span>        </a>
+
+        <!-- Contenu du menu -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <!-- Liens de navigation -->
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <!-- Vous pouvez ajouter d'autres liens de navigation ici -->
+            </ul>
+
+            <!-- Icônes d'avatar et de mode -->
+            <ul class="navbar-nav mb-2 mb-lg-0">
+              <li class="nav-item d-none d-lg-block">
+                <a type="button" class="nav-link nav-link-style btn">
+                  <span [ngClass]="currentSkin === 'dark' ? 'icon-sun' : 'icon-moon'" class="ficon font-medium-5 feather"></span>
+                </a>
+              </li>
+                <li ngbDropdown class="nav-item dropdown-user">
+                  <a
+                    class="nav-link dropdown-toggle dropdown-user-link"
+                    id="dropdown-user"
+                    ngbDropdownToggle
+                    id="navbarUserDropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                  <ng-container *ngIf="this.currentUser">
+                    <div class="user-nav d-sm-flex d-none">
+                      <span class="user-name font-weight-bolder">{{currentUser.name }}</span><span class="user-status"></span>
+                    </div>
+                    <span class="avatar"
+                      ><img
+                      class="round"
+                      [src]="currentUser ? imgPrefix + currentUser.avatar : 'assets/avatar-s-8.jpg'"
+                      alt="avatar"
+                      height="40"
+                      width="40"
+                    /></span>
+                  </ng-container>
+                  </a>
+                  <div ngbDropdownMenu aria-labelledby="navbarUserDropdown" class="dropdown-menu dropdown-menu-right">
+                    <a ngbDropdownItem [routerLink]="['/pages/settings', currentUser?.id]"><span  [class]="'mr-50'"></span>Mon profil</a>
+                    
+                    <div class="dropdown-divider"></div>
+                    <a ngbDropdownItem (click)="logout()"
+                      ><span [class]="'mr-50'"></span> Se déconnecter</a
+                    >
+                  </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
