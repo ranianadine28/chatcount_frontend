@@ -1,0 +1,43 @@
+<div class="sidenav" [ngClass]="collapsed ? 'sidenav-collapsed' : ''">
+    <div class="first-column">
+        <div class="logo-container">
+            <button class="logo" (click)="toggleCollapse()">C</button>
+            <div class="logo-text" @fadeInOut *ngIf="collapsed">ChatCount</div>
+            <button class="btn-close" *ngIf="collapsed" (click)="closeSidenav()">   
+                <i class="fal fa-times close-icon"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="second-column" *ngIf="showChatDiv()">
+        <div class="chat-div ">
+            <!-- Bouton "Add New Chat" avec une icône d'ajout -->
+            <button class="add-chat-button">
+                <i class="fas fa-plus"></i> Add New Chat
+            </button>
+            <!-- Liste statique d'historique des chats -->
+            <ul class="chat-history-list">
+                <li class="chat-history-item">Chat 1</li>
+                <li class="chat-history-item">Chat 2</li>
+                <li class="chat-history-item">Chat 3</li>
+            </ul>
+        </div> 
+    </div>
+    
+    
+    
+
+
+    <div class="third-column">
+        <ul class="sidenav-nav">
+            <li class="sidenav-nav-item" *ngFor="let data of navData">
+                <a class="sidenav-nav-link" [routerLink]="[data.routeLink]"
+                   routerLinkActive="active"
+                   [routerLinkActiveOptions]="{exact: true}">
+                    <i class="sidena-link-icon" [class]="data.icon"></i>
+                    <span class="sidenav-link-text" @fadeInOut *ngIf="collapsed">{{data.label}}</span>
+                </a>
+            </li>
+        </ul>
+    </div>    
+</div>
