@@ -5,9 +5,12 @@ import { Subject, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { AuthService } from '../authetification/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NavbarComponent } from '../navbar/navbar.component';
+
 
 @Component({
   selector: 'app-dashboard',
+  
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'] // Use styleUrls instead of styleUrl
 })

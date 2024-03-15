@@ -5,7 +5,7 @@ export const navbarData = [
     label: 'Dashboard'
 },
 {
-    routeLink: 'chat',
+    routeLink: 'chat/:id',
     icon: 'fal fa-comment-alt',
     label: 'Chat'
 },

@@ -1,0 +1,56 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-white mt-0">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <span class="logo">
+          <img class="" src="assets/chatcount.png" alt="logo" height="60" width="120" />
+          <span class="logo-status-online"></span>
+        </span>
+      </a>
+  
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        </ul>
+  
+        <ul class="navbar-nav mb-2 mb-lg-0">
+          <li class="nav-item d-none d-lg-block">
+            <a type="button" class="nav-link nav-link-style btn">
+              <span [ngClass]="currentSkin === 'dark' ? 'icon-sun' : 'icon-moon'" class="ficon font-medium-5 feather"></span>
+            </a>
+          </li>
+     
+          <li ngbDropdown class="nav-item dropdown-user">
+            <a class="nav-link dropdown-toggle dropdown-user-link" id="dropdown-user" ngbDropdownToggle id="navbarUserDropdown" aria-haspopup="true" aria-expanded="false">
+              <ng-container *ngIf="currentUser">
+                <div class="d-flex align-items-center my-custom">
+                  <div class="user-nav d-sm-flex d-none">
+                    <span class="user-name font-weight-bolder">
+                      {{ currentUser.userInfo.name }}
+                    </span>
+                  </div>
+                  <span class="mr-2"></span> <!-- Ajoutez l'espace ici -->
+                  <span class="avatar">
+                    <img class="round" [src]="currentUser.userInfo.avatar ? imgPrefix + currentUser.userInfo.avatar : 'assets/avatar-s-8.jpg'" alt="avatar" height="40" width="40" />
+                    <span class="avatar-status-online"></span>
+                  </span>
+                  <div ngbDropdownMenu aria-labelledby="navbarUserDropdown" class="dropdown-menu dropdown-menu-right">
+                    <a ngbDropdownItem [routerLink]="['/pages/settings', currentUser.userInfo._id]">
+                      <span class="fas fa-user mr-2"></span>Mon profil
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a ngbDropdownItem (click)="logout()">
+                      <span class="fas fa-power-off mr-2"></span> Se déconnecter
+                    </a>
+                  </div>
+                </div>
+  
+              </ng-container>
+            </a>
+          
+          </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+  

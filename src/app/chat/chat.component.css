@@ -20,7 +20,7 @@
 
 .input-group {
   position: fixed;
-  margin-left: 35px;
+  margin-left: 120px;
   bottom: 0;
   left: 50%; /* Place la div au milieu horizontalement */
   transform: translateX(-50%); /* Décale la div de 50% de sa propre largeur vers la gauche */
@@ -66,3 +66,53 @@
 }
 
 
+.logo{
+  width: 80px; 
+  height: 40px; 
+  object-fit: cover;
+  margin-right: 10px;
+}
+.container {
+  width: 600px;
+  margin: 20px auto;
+}
+
+
+
+.card-title {
+  font-weight: bold;
+  margin-top: 10px;
+  width: 100;
+}
+
+.card-text {
+  margin-bottom: 10px;
+}
+
+.form-control {
+  width: 400px;
+  border-radius: 5px;
+}
+
+.list-group {
+  margin-top: 10px;
+  border-radius: 5px;
+}
+
+.list-group-item {
+  padding: 10px;
+  border-radius: 5px;
+  transition: 0.2s ease-in-out;
+}
+
+.list-group-item:hover {
+  background-color: #f0f0f0;
+}
+
+.btn-primary {
+  margin-top: 10px;
+  border-radius: 5px;
+  background-color: #010326;
+  color: #fff;
+  font-size: 12px;
+}

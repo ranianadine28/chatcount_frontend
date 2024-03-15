@@ -4,7 +4,7 @@
     position: fixed;
     z-index: 1;
     top: 0;
-    width: 5rem;
+    width: 16.5625rem;
     height: 100vh;
     box-shadow: 0.063rem 0 1.25rem 0 #8690a3;
 
@@ -54,10 +54,7 @@
     }
 }
 
-.sidenav-collapsed {
-    width: 16.5625rem;
-}
- 
+
 .sidenav-nav {
     list-style: none;
     padding: 0.938rem;
@@ -100,7 +97,7 @@
 .sidenav-nav-item:hover{
   .sidenav-nav-link{
     background-color: #fff;
-    color: #000;
+    color: #030640;
 
   }
 }
@@ -110,7 +107,7 @@
 
     .sidena-link-icon,
     .sidenav-link-text{
-        color: #000;
+        color: #030640;
     }
 }
 

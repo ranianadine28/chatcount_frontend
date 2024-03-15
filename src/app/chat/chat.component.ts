@@ -6,6 +6,10 @@ import { AuthService } from '../authetification/auth.service';
 import { environment } from '../environment/environment';
 import { User } from '../authetification/login/model_user';
 import { isPlatformBrowser } from '@angular/common';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NewchatComponent } from '../chat-div/modal/newchat/newchat.component';
+import { Subscription } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-chatbot',
@@ -13,72 +17,88 @@ import { isPlatformBrowser } from '@angular/common';
   styleUrls: ['./chat.component.css']
 })
 export class ChatComponent implements OnInit {
-  public    currentSkin:string = "white";
-  
-
+  showContent = true;
   imgPrefix = environment.apiUrl + '/avatars/';
   messages: Message[] = [];
-  value: string = '';
-  public currentUser: User | null = null;
-    @ViewChild('importFecButton', { static: true }) importButtonRef!: ElementRef;
+  value = '';
+  currentUser: User | null = null;
+  conversationSubscription: Subscription | undefined;
+  conversationId: string | undefined;
 
-  constructor(public chatService: ChatService, public fecService: FecService,private authService: AuthService,@Inject(PLATFORM_ID) private platformId: Object) {}
+  constructor(
+    public chatService: ChatService,
+    private modal: NgbModal,
+    public fecService: FecService,
+    private route: ActivatedRoute,
+    private authService: AuthService,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {
+    
+  }
 
   ngOnInit() {
-
-    this.chatService.conversation.subscribe((messages: Message[]) => {
-      this.messages = [...this.messages, ...messages];
-    });
-
-    // Add event listener to the import button
-    this.importButtonRef.nativeElement.addEventListener('click', () => {
-      const fileUploadDialog = document.createElement('input');
-      fileUploadDialog.type = 'file';
-      fileUploadDialog.accept = '.csv';
-      fileUploadDialog.addEventListener('change', (event) => {
-        if (event.target) {
-          const fileInput = event.target as HTMLInputElement;
-          if (fileInput.files && fileInput.files.length > 0) {
-            const file = fileInput.files[0];
-            this.handleFileUpload(file);
-          } else {
-            console.warn("No file selected.");
-          }
-        }
-      });
-      fileUploadDialog.click();
-    });
     if (isPlatformBrowser(this.platformId)) {
-
-
       this.authService.retrieveCurrentUserFromLocalStorage();
       this.authService.currentUser$.subscribe(user => {
         this.currentUser = user;
-      });    console.log("thisssss",this.currentUser);
-  } else {
-    // Handle server-side logic (if needed)
+      });
+    } else {
+      // Handle server-side logic (if needed)
+    }
+  
+    this.route.paramMap.subscribe(params => {
+      this.conversationId = params.get('id') || '';
+      
+      this.chatService.initSocketListeners(this.conversationId!);
+    });
+  
+    this.chatService.conversation.subscribe((messages: Message[]) => {
+      this.messages = [...this.messages, ...messages];
+    });
+  
+    this.conversationSubscription = this.chatService.conversation.subscribe(
+      (messages) => (this.messages = messages)
+    );
+    
   }
-
+  
+  bots: any[] = []; 
+  ngOnDestroy() {
+    this.conversationSubscription!.unsubscribe();
   }
+  addChat() {
+    this.showContent = false;
 
-  // Function to handle file upload
-  handleFileUpload(file: File) {
-    this.fecService.uploadFile(file).subscribe(
+    const modalRef = this.modal.open(NewchatComponent, {
+      size: 'md',
+      windowClass: 'modal modal-primary'
+    });
+    modalRef.componentInstance.modalMode = 'add';
+
+    modalRef.result.then((x) => {
+      if (x) {
+          // Réinitialiser les messages après avoir créé une nouvelle conversation
+      this.messages = [];
+      this.showContent = false; // Hide the div
+      }
+    }, () => {});
+  }
+  saveConversation() {
+    this.chatService.saveConversation(this.messages, this.conversationId!).subscribe(
       (response) => {
-        console.log(response); // Handle response from backend (optional)
+        console.log('Conversation enregistrée avec succès:', response);
+        this.messages = [];
       },
       (error) => {
-        console.error('File upload error:', error); // Log the error
+        console.error('Erreur lors de l\'enregistrement de la conversation:', error);
       }
     );
   }
-  logout(): void {
-    this.authService.logout(); 
-  }
-  // Function to send a message
   sendMessage() {
     if (this.value.trim() !== '') {
-      this.chatService.getBotAnswer(this.value);
+      this.chatService.getBotAnswer(this.value, this.conversationId!);
+      console.log("currentUser",this.currentUser);
       this.value = '';
     }
-  }}
+  }
+}

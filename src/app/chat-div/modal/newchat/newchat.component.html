@@ -1,0 +1,26 @@
+<div class="d-flex justify-content-between">
+    <div>
+      <button type="button" class="btn btn-outline-primary" id="import-fec-button" (click)="openFileUploadDialog()">
+        <i class="fa fa-file-import"></i> Importer votre FEC
+      </button>
+    </div>
+    <div>
+      <div class="modal-body">
+        <div class="fec-selection">
+          <h3>Sélectionnez un FEC</h3>
+          <ul>
+            <li *ngFor="let fec of fecs">
+              <input type="radio" name="selectedFec" [(ngModel)]="selectedFec" [value]="fec._id">
+              <label for="{{ fec._id }}">{{ fec.name }}</label>
+            </li>
+          </ul>
+        </div>
+    
+        <div class="discussion-button">
+          <input type="text" class="form-control" id="conversation-name-input" placeholder="Nom de la conversation">
+
+          <button type="button" class="btn btn-primary" [disabled]="!selectedFec" (click)="launchDiscussion()">Lancer votre discussion</button>
+        </div>
+      </div>
+    </div>
+  </div>

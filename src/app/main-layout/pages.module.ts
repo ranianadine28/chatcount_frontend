@@ -5,6 +5,12 @@ import { SharedModule } from '../SharedModule/shared.module';
 import { MainLayoutComponent } from './main-layout.component';
 import { SidenavComponent } from '../sidenav/sidenav.component';
 import { BodyComponent } from '../body/body.component';
+import { ChatDivComponent } from '../chat-div/chat-div.component';
+import { ChatService } from '../chat/chatbot.service';
+import { ChatManagementModule } from '../chat/chat.module';
+import { NavbarComponent } from '../navbar/navbar.component';
+import { NgbDropdown, NgbDropdownModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 
 
 
@@ -27,8 +33,17 @@ const routes: Routes = [
             },
           },
           {
-            path: 'chat',
+            path:  'chat/:id',
             loadChildren:()=> import('../chat/chat.module').then(m=> m.ChatManagementModule),
+            data: {
+              role: {
+                page: 'chat',
+              }
+            },
+          },
+          {
+            path:  'chat',
+            loadChildren:()=> import('../initchat/initchat.module').then(m=> m.InitChatManagementModule),
             data: {
               role: {
                 page: 'chat',
@@ -62,13 +77,20 @@ const routes: Routes = [
     declarations: [
         MainLayoutComponent,
         SidenavComponent,
-        BodyComponent
+        BodyComponent,
+        ChatDivComponent,
+        NavbarComponent,
+        ChatDivComponent
+        
     ],
     imports: [
       SharedModule,
       RouterModule.forChild(routes),
+      NgbModule,
+      NgbDropdownModule,
+
     ],
-  
-    providers: []
+    providers: [ChatService],
   })
 export class AppRoutingModule { }
+

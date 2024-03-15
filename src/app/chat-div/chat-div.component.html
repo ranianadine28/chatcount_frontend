@@ -1,0 +1,17 @@
+<div class="chat-div">
+  <button class="add-chat-button" style="background-color: hsla(0, 0%, 95%, 0.707); color: #ffffff; border: none; padding: 6px 20px; border-radius: 25px; margin-right: 10px;"(click)="addChat()">
+    <i class="fas fa-plus"></i> Nouvelle Conversation
+  </button>
+
+  <h2 class = "font-circular-std-black-20 "style=" margin-bottom: 6px; margin-top:10px; margin-left: 6px;">Discussions récentes</h2>
+
+  <div class="conversation-list" #conversationList>
+    <div *ngFor="let conversation of conversations" class="conversation-item">
+      <h2 class="conversation-name">
+        <i class="fas fa-comment-alt" style="margin-right: 4px;"></i>
+        {{ conversation.name }}
+        <i class="fas fa-ellipsis-v" style="margin-left: 20px;"></i>
+      </h2>
+    </div>
+  </div>
+</div>

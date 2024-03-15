@@ -10,6 +10,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { SharedModule } from './SharedModule/shared.module';
 
 import { RouterModule, Routes } from '@angular/router';
+import { ChatService } from './chat/chatbot.service';
 
 
 const appRoutes: Routes = [
@@ -39,7 +40,6 @@ const appRoutes: Routes = [
     
   ],
   imports: [
- 
     HttpClientModule,
     SharedModule,
     RouterModule.forRoot(appRoutes, {
@@ -55,7 +55,8 @@ const appRoutes: Routes = [
   ],
   providers: [
     provideClientHydration(),
-    provideHttpClient(withFetch())
+    provideHttpClient(withFetch()),
+    ChatService
 
   ],
   bootstrap: [AppComponent]

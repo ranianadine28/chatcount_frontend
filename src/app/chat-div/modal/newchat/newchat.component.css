@@ -1,0 +1,17 @@
+.btn-outline-primary {
+    background: linear-gradient(to right, #92b3f5, #010326);
+    border-radius: 15px;
+    color: 030640;
+    border: 2px solid #030640;
+    margin-top: 10px ;
+    margin-left: 10px;
+}
+
+.btn-primary{
+    background: linear-gradient(to right, #92b3f5, #010326);
+    border-radius: 15px;
+    color: 030640;
+    border: 2px solid #030640;
+    margin-top: 10px ;
+    margin-left: 10px;
+}
