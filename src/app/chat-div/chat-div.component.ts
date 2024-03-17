@@ -8,6 +8,7 @@ import { FecService } from '../chat/file-upload/file-upload.service';
 import { ChatService } from '../chat/chatbot.service';
 import { AlertHandlerService } from '../SharedModule/alert_handler.service';
 import { User } from '../authetification/login/model_user';
+import { ConversationService } from '../knowledge/conversation.service';
 
 @Component({
   selector: 'app-chat-div', 
@@ -30,7 +31,8 @@ export class ChatDivComponent implements OnInit {
     private authService: AuthService,
     @Inject(PLATFORM_ID) private platformId: Object,
     private router: Router,
-    private fecService: FecService
+    private fecService: FecService,
+    private historiqueService: ConversationService,
   ) {}
 
 
@@ -80,6 +82,10 @@ export class ChatDivComponent implements OnInit {
       )
     );
   }
+  loadConversationHistory(conversationId: string): void {
+    this.router.navigate(['/pages/chat', conversationId]);
+  }
+  
   onDeleteConversation(conversationId: string): void {
     this.conversationService.deleteConversation(conversationId).subscribe(
       () => {
@@ -90,20 +96,24 @@ export class ChatDivComponent implements OnInit {
       }
     );
   }
-
+  cancelRenaming(conversation: any): void {
+    conversation.isRenaming = false;
+    conversation.newName = ''; 
+  }
   addChat() {
     const userId = this.currentUser?.userInfo._id;
     const fecId = '65e5a437c9c96fac48007881';
 
-    this.fecService.ajoutConversation(userId!, fecId, "new_conversation").subscribe(
+    this.historiqueService.startNewConversation(userId!, fecId, "new_conversation").subscribe(
       (response) => {
         if (response && response.conversationId) {
           this.router.navigate(['/pages/chat', response.conversationId]);
           this.alertServ.alertHandler("Conversation lancée", 'success');
-          this.conversations = []; 
         } else {
           console.error('Error creating conversation: Invalid response');
           this.alertServ.alertHandler("Erreur lors de la création de la conversation", 'error');
+          this.historiqueService.clearMessageHistory();
+
         }
       },
       (error) => {
@@ -119,16 +129,17 @@ export class ChatDivComponent implements OnInit {
       this.conversationList!.nativeElement.scrollTop = this.conversationList!.nativeElement.scrollHeight;
     } catch(err) { }
   }
+
   startRenaming(conversation: any): void {
     conversation.isRenaming = true;
-    conversation.newName = conversation.name;
+    conversation.showDropdown = false; // Cacher le menu déroulant lors du renommage
   }
-
+  
   renameConversation(conversation: any): void {
     this.conversationService.renameConversation(conversation._id, conversation.newName).subscribe(
       () => {
         conversation.isRenaming = false;
-        conversation.name = conversation.newName;
+        conversation.showDropdown = false; // Cacher le menu déroulant après le renommage
         console.log('Conversation renommée avec succès');
       },
       error => {
@@ -136,4 +147,9 @@ export class ChatDivComponent implements OnInit {
       }
     );
   }
+  
+  toggleDropdown(conversation: any): void {
+    conversation.showDropdown = !conversation.showDropdown;
+  }
+  
 }

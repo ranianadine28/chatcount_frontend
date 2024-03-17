@@ -32,8 +32,9 @@ export class ChatService {
     this.socket.on('message', (data: any) => {
       const botMessage = new Message('bot', data);
       this.conversation.next([botMessage]); 
-      this.saveMessageToDatabase('bot', data, conversationId); 
+     // this.saveMessageToDatabase('bot', data, conversationId); 
       console.log("id",conversationId);
+      console.log(data);
     });
   }
   
@@ -53,9 +54,9 @@ export class ChatService {
     }
   }
   
-  saveConversation(conversation: Message[], conversationId: string): Observable<any> {
-    const messages = conversation.map(message => ({ sender: message.sender, text: message.text }));
-    const requestBody = { messages };
+  saveConversation(messages: Message[], conversationId: string): Observable<any> {
+    const requestBody = { messages }; // Utilisez directement les messages fournis en tant que corps de la requête
+  
     return this.http.post<any>(`${this.apiUrl}/conversation/enregistrer-message/${conversationId}`, requestBody)
       .pipe(
         catchError(this.handleError) // Gérer les erreurs
@@ -75,10 +76,13 @@ export class ChatService {
   getConversations(userId : string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/conversation/conversations/${userId}`);
   }
+  getConversationMessages(conversationId : string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/conversation/conversationsMessage/${conversationId}`);
+  }
   deleteConversation(conversationId: string): Observable<any> {
-    return this.http.delete<any>(`${this.apiUrl}/conversation/conversations/${conversationId}`);
+    return this.http.delete<any>(`${this.apiUrl}/conversation/deleteconversation/${conversationId}`);
   }
   renameConversation(conversationId: string, newName: string): Observable<any> {
-    return this.http.patch<any>(`${this.apiUrl}/conversation/conversations/${conversationId}`, { name: newName });
+    return this.http.patch<any>(`${this.apiUrl}/conversation/renameConversation/${conversationId}`, { name: newName });
   }
 }

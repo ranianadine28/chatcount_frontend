@@ -1,1 +1,25 @@
-<p>knowledge works!</p>
+<div class="container">
+    <div class="conversations-list">
+      <h2>Conversations</h2>
+      <ul *ngIf="conversationList">
+        <li *ngFor="let conversation of conversationList" (click)="selectConversation(conversation.conversationId)">
+          {{ conversation.lastMessage }}
+        </li>
+      </ul>
+    </div>
+  
+    <div class="chat-window" *ngIf="conversationId">
+      <h2>{{ conversationId }}</h2>
+      <ul class="messages-list">
+        <li *ngFor="let message of getMessages(conversationId)" [class.user]="message.sender === 'user'">
+          {{ message.text }}
+        </li>
+      </ul>
+  
+      <div class="chat-input">
+        <input type="text" [(ngModel)]="value" placeholder="Entrez votre message...">
+        <button (click)="sendMessage(value, conversationId)">Envoyer</button>
+      </div>
+    </div>
+  </div>
+  

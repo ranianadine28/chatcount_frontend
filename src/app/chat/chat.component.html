@@ -1,72 +1,33 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <div class="message-list">
+        <ng-container *ngFor="let message of messages">
+          <div class="message-container">
+            <div class="message avatar" [ngClass]="{ 'from': message.sender === 'bot', 'to': message.sender === 'user' }">
+              <img *ngIf="message.sender === 'user'" src="https://i.ibb.co/d5b84Xw/Untitled-design.png" alt="Avatar Utilisateur">
+              <img *ngIf="message.sender === 'bot'" src="https://i.ibb.co/fSNP7Rz/icons8-chatgpt-512.png" alt="Avatar Bot">
+              {{ message.text }}
+            </div>
+          </div>
+        </ng-container>
+      </div>
+      
+      <div class="row message-input-row">
+        <div class="col-md-6">
+          <div class="input-group">
+            <input [(ngModel)]="value" (keyup.enter)="sendMessage()" type="text" class="form-control" placeholder="Entrez votre message..." aria-label="Message" aria-describedby="button-addon2">
+            <div class="input-group-append">
+              <button (click)="startRecording()" class="btn btn-outline-primary-icon" type="button">
+                <i class="fa fa-microphone"></i> 
+              </button>
+              
+              <button (click)="sendMessage()" class="btn btn-outline-primary" type="button" id="button-addon2">Envoyer</button>
 
-
-<div *ngIf="showContent"  class="container">
-   
-  <div *ngIf="showContent"  class="card-body">
-    <h5 class="card-title">Choisissez un bot pour une nouvelle conversation</h5>
-    <p class="card-text">Rechercher des bots...</p>
-    <div class="form-group">
-      <input type="text" class="form-control" placeholder="Entrez le nom du bot">
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <ul class="list-group">
-      <li class="list-group-item" *ngFor="let bot of bots">
-        <a href="#">{{bot.name}} - {{bot.description}}</a>
-      </li>
-    </ul>
-    <button type="button" class="btn btn-primary"(click)="addChat()">Lancer votre discussion</button>
   </div>
 </div>
-<div class="container p-5">
-    <div class="row">
-      <div class="col-12">
-        <div class="row">
-          <div class="column"></div>
-          <div class="column column-50">
-            <ng-container *ngFor="let message of messages">
-              <div class="message-container">
-              
-                <div class="message avatar" [ngClass]="{from: message.sender === 'bot', to: message.sender === 'user'}">
-                    <img *ngIf="message.sender === 'user'" src="https://i.ibb.co/d5b84Xw/Untitled-design.png" alt="Avatar Utilisateur">
-                    <img *ngIf="message.sender === 'bot'" src="https://i.ibb.co/fSNP7Rz/icons8-chatgpt-512.png" alt="Avatar Bot">
-                  {{ message.text }}
-                </div>
-              </div>
-            </ng-container>
-            <div class="container p-5">
-              <div class="row">
-                <div class="col-12">
-                  <div class="row">
-                    <div class="column"></div>
-                    <div class="column column-50">
-                      <div class="row message-input-row"> <div class="col-md-6">
-                          <ng-container *ngFor="let message of messages">
-                            <div class="message-container">
-                              ...
-                            </div>
-                          </ng-container>
-                       
-                          <div class="grid-container">
-                            <div class="col-md-6">
-                              <ng-container *ngFor="let message of messages">
-                                <div class="message-container">
-                                  ...
-                                </div>
-                              </ng-container>
-                              <div class="input-group mb-0 ml-auto">
-                              
-                                <input [(ngModel)]="value" (keyup.enter)="sendMessage()" type="text" class="form-control" placeholder="ChatCount message..." aria-label="ChatCount message" aria-describedby="button-addon2">
-                                <button (click)="sendMessage()" class="btn btn-outline-primary btn-send" type="button" id="button-addon2">Send</button>
-                              </div>
-                            </div>
-                           
-                            
-                          </div>
-                          
-                        </div>
-                      </div>
-                    </div>
-                    <div class="column"></div>
-                  </div>
-                </div>
-              </div>
-            </div>

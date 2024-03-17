@@ -9,7 +9,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NewchatComponent } from '../chat-div/modal/newchat/newchat.component';
 import { Subscription } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-chatbot',
@@ -21,9 +21,15 @@ export class ChatComponent implements OnInit {
   imgPrefix = environment.apiUrl + '/avatars/';
   messages: Message[] = [];
   value = '';
+  public noConversationId: boolean = false;
+  recording = false; 
+  public conversationExists: boolean = false;
+
   currentUser: User | null = null;
   conversationSubscription: Subscription | undefined;
-  conversationId: string | undefined;
+  conversationId!: string;
+  selectBConvContent:string = '';
+  @ViewChild('audioRecorder', {static: false}) audioRecorder!: ElementRef<HTMLAudioElement>; 
 
   constructor(
     public chatService: ChatService,
@@ -31,6 +37,7 @@ export class ChatComponent implements OnInit {
     public fecService: FecService,
     private route: ActivatedRoute,
     private authService: AuthService,
+    private router: Router,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
     
@@ -48,8 +55,16 @@ export class ChatComponent implements OnInit {
   
     this.route.paramMap.subscribe(params => {
       this.conversationId = params.get('id') || '';
-      
-      this.chatService.initSocketListeners(this.conversationId!);
+      this.chatService.initSocketListeners(this.conversationId);
+
+     
+    if (this.conversationId) {
+      this.conversationExists = true; 
+      this.loadConversationMessages(this.conversationId);
+    } else {
+      this.conversationExists = false; 
+    }
+     
     });
   
     this.chatService.conversation.subscribe((messages: Message[]) => {
@@ -83,22 +98,76 @@ export class ChatComponent implements OnInit {
       }
     }, () => {});
   }
-  saveConversation() {
-    this.chatService.saveConversation(this.messages, this.conversationId!).subscribe(
-      (response) => {
-        console.log('Conversation enregistrée avec succès:', response);
-        this.messages = [];
-      },
-      (error) => {
-        console.error('Erreur lors de l\'enregistrement de la conversation:', error);
-      }
-    );
-  }
+  // saveConversation() {
+  //   this.chatService.saveConversation(this.messages, this.conversationId).subscribe(
+  //     (response) => {
+  //       console.log('Conversation enregistrée avec succès:', response);
+  //       this.messages = [];
+  //       console.log("hanii houni",this.conversationId);
+  //     },
+  //     (error) => {
+  //       console.error('Erreur lors de l\'enregistrement de la conversation:', error);
+  //     }
+  //   );
+  // }
   sendMessage() {
     if (this.value.trim() !== '') {
-      this.chatService.getBotAnswer(this.value, this.conversationId!);
+      this.chatService.getBotAnswer(this.value, this.conversationId);
       console.log("currentUser",this.currentUser);
       this.value = '';
     }
   }
+  loadConversationMessages(conversationId: string): void {
+    this.messages = []; 
+    this.chatService.getConversationMessages(conversationId).subscribe(
+      messages => {
+        this.messages = messages; // Remplit la liste avec les nouveaux messages
+      },
+      error => {
+      
+      }
+    );
+    this.router.navigateByUrl(`/pages/chat/${conversationId}`);
+
+  }
+  
+  startRecording() {
+    if (!this.recording) {
+      this.recording = true;
+      navigator.mediaDevices.getUserMedia({ audio: true }) // Request access to user's microphone
+        .then(stream => {
+          const mediaRecorder = new MediaRecorder(stream); // Create a new MediaRecorder instance
+          const chunks: BlobPart[] = []; // Array to store recorded chunks
+
+          mediaRecorder.ondataavailable = (event) => {
+            chunks.push(event.data); // Push new recorded chunk to the array
+          };
+
+          mediaRecorder.onstop = () => {
+            this.recording = false;
+            const audioBlob = new Blob(chunks, { type: 'audio/wav' }); // Create a blob from recorded chunks
+            const audioUrl = URL.createObjectURL(audioBlob); // Create a URL for the blob
+
+            // You can do further processing here, like sending the audio file to your chat service
+            // For now, we'll just set the audio URL to an audio element
+            if (this.audioRecorder) {
+              this.audioRecorder.nativeElement.src = audioUrl; // Set audio URL to the audio element
+              this.audioRecorder.nativeElement.controls = true; // Show controls for playing the audio
+            }
+          };
+
+          mediaRecorder.start(); // Start recording
+          
+          setTimeout(() => {
+            mediaRecorder.stop(); // Stop recording after a set duration (you can adjust this as needed)
+          }, 5000); // Recording for 5 seconds in this example
+        })
+        .catch(error => {
+          console.error('Error accessing microphone:', error);
+          // Handle error
+        });
+    }
+  }
+
+  
 }

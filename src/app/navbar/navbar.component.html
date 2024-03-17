@@ -7,16 +7,8 @@
         </span>
       </a>
   
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        </ul>
-  
-        <ul class="navbar-nav mb-2 mb-lg-0">
-          <li class="nav-item d-none d-lg-block">
-            <a type="button" class="nav-link nav-link-style btn">
-              <span [ngClass]="currentSkin === 'dark' ? 'icon-sun' : 'icon-moon'" class="ficon font-medium-5 feather"></span>
-            </a>
-          </li>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+        <ul class="navbar-nav mb-2 mb-lg-0 ml-auto flex-row">        
      
           <li ngbDropdown class="nav-item dropdown-user">
             <a class="nav-link dropdown-toggle dropdown-user-link" id="dropdown-user" ngbDropdownToggle id="navbarUserDropdown" aria-haspopup="true" aria-expanded="false">
@@ -28,8 +20,8 @@
                     </span>
                   </div>
                   <span class="mr-2"></span> <!-- Ajoutez l'espace ici -->
-                  <span class="avatar">
-                    <img class="round" [src]="currentUser.userInfo.avatar ? imgPrefix + currentUser.userInfo.avatar : 'assets/avatar-s-8.jpg'" alt="avatar" height="40" width="40" />
+                  <span class="avatar" >
+                    <img class="rounded-circle"  [src]="currentUser.userInfo.avatar ? imgPrefix + currentUser.userInfo.avatar : 'assets/avatar-s-8.jpg'" alt="avatar" height="40" width="40" />
                     <span class="avatar-status-online"></span>
                   </span>
                   <div ngbDropdownMenu aria-labelledby="navbarUserDropdown" class="dropdown-menu dropdown-menu-right">

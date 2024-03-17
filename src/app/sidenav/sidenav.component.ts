@@ -50,6 +50,11 @@ export class SidenavComponent implements OnInit {
     const isChatRoute = this.router.url.includes('chat');
     return isChatRoute;
   }
+  showKnowledgeDiv(): boolean {
+    const isknowledgeRoute = this.router.url.includes('knowledge');
+    return isknowledgeRoute;
+  }
+
 
 
 
