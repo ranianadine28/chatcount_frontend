@@ -6,8 +6,6 @@ import { ChatService } from './chatbot.service';
 import { FileUploadComponent } from './file-upload/file-upload.component';
 import { NgbDropdownModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NewchatComponent } from '../chat-div/modal/newchat/newchat.component';
-import { ToastrModule, provideToastr } from 'ngx-toastr';
-import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog'; 
 import { ConfirmmodalComponent } from '../chat-div/modal/confirmmodal/confirmmodal.component';
 import { ConfirmActionModalComponent } from '../SharedModule/modals/confirm-action-modal/confirm-action-modal.component';
@@ -26,7 +24,6 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     NgbDropdownModule,
     NgbModule,  
-    ToastrModule.forRoot(),
     MatDialogModule,
 
 
@@ -34,8 +31,7 @@ const routes: Routes = [
   ],
   declarations: [ChatComponent,FileUploadComponent],
 
-  providers: [ChatService, provideAnimations(), // required animations providers
-  provideToastr(),
+  providers: [ChatService, 
 ConfirmActionModalComponent],
     // Toastr providers
   

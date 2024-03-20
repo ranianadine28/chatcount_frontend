@@ -1,5 +1,5 @@
 export const environment = {
   production: false,
   hmr: false,
-  apiUrl: 'http://localhost:7001'
+  apiUrl: 'https://chatcountbackend-6d6fa3db0146.herokuapp.com '
 };
