@@ -50,7 +50,6 @@ export class ChatComponent implements OnInit {
         this.currentUser = user;
       });
     } else {
-      // Handle server-side logic (if needed)
     }
   
     this.route.paramMap.subscribe(params => {
@@ -92,9 +91,8 @@ export class ChatComponent implements OnInit {
 
     modalRef.result.then((x) => {
       if (x) {
-          // Réinitialiser les messages après avoir créé une nouvelle conversation
       this.messages = [];
-      this.showContent = false; // Hide the div
+      this.showContent = false;
       }
     }, () => {});
   }
@@ -121,50 +119,48 @@ export class ChatComponent implements OnInit {
     this.messages = []; 
     this.chatService.getConversationMessages(conversationId).subscribe(
       messages => {
-        this.messages = messages; // Remplit la liste avec les nouveaux messages
+        this.messages = messages; 
       },
       error => {
       
       }
     );
-    this.router.navigateByUrl(`/pages/chat/${conversationId}`);
+  
+
 
   }
   
   startRecording() {
     if (!this.recording) {
       this.recording = true;
-      navigator.mediaDevices.getUserMedia({ audio: true }) // Request access to user's microphone
+      navigator.mediaDevices.getUserMedia({ audio: true }) 
         .then(stream => {
-          const mediaRecorder = new MediaRecorder(stream); // Create a new MediaRecorder instance
-          const chunks: BlobPart[] = []; // Array to store recorded chunks
+          const mediaRecorder = new MediaRecorder(stream); 
+          const chunks: BlobPart[] = []; 
 
           mediaRecorder.ondataavailable = (event) => {
-            chunks.push(event.data); // Push new recorded chunk to the array
+            chunks.push(event.data); 
           };
 
           mediaRecorder.onstop = () => {
             this.recording = false;
-            const audioBlob = new Blob(chunks, { type: 'audio/wav' }); // Create a blob from recorded chunks
-            const audioUrl = URL.createObjectURL(audioBlob); // Create a URL for the blob
+            const audioBlob = new Blob(chunks, { type: 'audio/wav' }); 
+            const audioUrl = URL.createObjectURL(audioBlob);
 
-            // You can do further processing here, like sending the audio file to your chat service
-            // For now, we'll just set the audio URL to an audio element
             if (this.audioRecorder) {
-              this.audioRecorder.nativeElement.src = audioUrl; // Set audio URL to the audio element
-              this.audioRecorder.nativeElement.controls = true; // Show controls for playing the audio
+              this.audioRecorder.nativeElement.src = audioUrl; 
+              this.audioRecorder.nativeElement.controls = true;
             }
           };
 
-          mediaRecorder.start(); // Start recording
+          mediaRecorder.start();
           
           setTimeout(() => {
-            mediaRecorder.stop(); // Stop recording after a set duration (you can adjust this as needed)
-          }, 5000); // Recording for 5 seconds in this example
+            mediaRecorder.stop(); 
+          }, 5000);
         })
         .catch(error => {
           console.error('Error accessing microphone:', error);
-          // Handle error
         });
     }
   }

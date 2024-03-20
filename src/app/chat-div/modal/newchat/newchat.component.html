@@ -10,7 +10,7 @@
           <h3>Sélectionnez un FEC</h3>
           <ul>
             <li *ngFor="let fec of fecs">
-              <input type="radio" name="selectedFec" [(ngModel)]="selectedFec" [value]="fec._id">
+              <input type="radio" name="selectedFec" id="selectedFec" [(ngModel)]="selectedFec" [value]="fec._id">
               <label for="{{ fec._id }}">{{ fec.name }}</label>
             </li>
           </ul>

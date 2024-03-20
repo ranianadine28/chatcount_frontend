@@ -5,8 +5,8 @@
         <ng-container *ngFor="let message of messages">
           <div class="message-container">
             <div class="message avatar" [ngClass]="{ 'from': message.sender === 'bot', 'to': message.sender === 'user' }">
-              <img *ngIf="message.sender === 'user'" src="https://i.ibb.co/d5b84Xw/Untitled-design.png" alt="Avatar Utilisateur">
-              <img *ngIf="message.sender === 'bot'" src="https://i.ibb.co/fSNP7Rz/icons8-chatgpt-512.png" alt="Avatar Bot">
+              <img *ngIf="message.sender === 'user'"class="rounded-circle"  [src]=" imgPrefix + currentUser?.userInfo?.avatar " alt="avatar" height="40" width="40" alt="Avatar Utilisateur">
+              <img *ngIf="message.sender === 'bot'" class="rounded-circle" src="assets/logo.png" alt="logo" height="40" width="40" alt="Avatar Bot">
               {{ message.text }}
             </div>
           </div>

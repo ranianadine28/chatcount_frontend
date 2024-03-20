@@ -9,6 +9,7 @@ import { ChatService } from '../chat/chatbot.service';
 import { AlertHandlerService } from '../SharedModule/alert_handler.service';
 import { User } from '../authetification/login/model_user';
 import { ConversationService } from '../knowledge/conversation.service';
+import { Conversation } from './conersation-model';
 
 @Component({
   selector: 'app-chat-div', 
@@ -109,6 +110,7 @@ export class ChatDivComponent implements OnInit {
         if (response && response.conversationId) {
           this.router.navigate(['/pages/chat', response.conversationId]);
           this.alertServ.alertHandler("Conversation lancée", 'success');
+          
         } else {
           console.error('Error creating conversation: Invalid response');
           this.alertServ.alertHandler("Erreur lors de la création de la conversation", 'error');
@@ -121,14 +123,14 @@ export class ChatDivComponent implements OnInit {
         this.alertServ.alertHandler("Erreur lors de la création de la conversation", 'error');
       }
     );
-    this.scrollToBottom();
+    //this.scrollToBottom();
 
   }
-  scrollToBottom(): void {
-    try {
-      this.conversationList!.nativeElement.scrollTop = this.conversationList!.nativeElement.scrollHeight;
-    } catch(err) { }
-  }
+  // scrollToBottom(): void {
+  //   try {
+  //     this.conversationList!.nativeElement.scrollTop = this.conversationList!.nativeElement.scrollHeight;
+  //   } catch(err) { }
+  // }
 
   startRenaming(conversation: any): void {
     conversation.isRenaming = true;
@@ -147,7 +149,13 @@ export class ChatDivComponent implements OnInit {
       }
     );
   }
-  
+  getFirstMessageText(conversation: Conversation): string {
+    if (conversation.messages.length > 0) {
+      return conversation.messages[0].text || ''; 
+    } else {
+      return conversation.name; 
+    }
+  }
   toggleDropdown(conversation: any): void {
     conversation.showDropdown = !conversation.showDropdown;
   }

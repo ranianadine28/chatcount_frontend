@@ -1,29 +1,28 @@
 <div class="chat-div">
-  <button class="add-chat-button" style="background-color: hsla(0, 0%, 95%, 0.707); color: #ffffff; border: none; padding: 6px 20px; border-radius: 25px; margin-right: 10px;"(click)="addChat()">
+  <button class="add-chat-button" style="background-color: hsla(0, 0%, 95%, 0.707); color: #ffffff; border: none; padding: 6px 20px; border-radius: 25px; margin-right: 10px;" (click)="addChat()">
     <i class="fas fa-plus"></i> Nouvelle Conversation
   </button>
 
-  <h2 class = "font-circular-std-black-20 "style=" margin-bottom: 6px; margin-top:10px; margin-left: 6px;">Discussions récentes</h2>
+  <h2 class="font-circular-std-black-20" style="margin-bottom: 6px; margin-top:10px; margin-left: 6px;">Discussions récentes</h2>
 
   <div class="conversation-list" #conversationList>
     <div *ngFor="let conversation of conversations" class="conversation-item" (click)="loadConversationHistory(conversation._id)">
       <h2 class="conversation-name">
         <i class="fas fa-comment-alt" style="margin-right: 4px;"></i>
-        <span *ngIf="!conversation.isRenaming">{{ conversation.name }}</span>
+        <span *ngIf="!conversation.isRenaming">{{ getFirstMessageText(conversation) }}</span>
         <input *ngIf="conversation.isRenaming" type="text" [(ngModel)]="conversation.newName" (keydown.enter)="renameConversation(conversation)" (blur)="cancelRenaming(conversation)">
         <i class="fas fa-ellipsis-v" style="margin-left: 20px;" (click)="toggleDropdown(conversation)"></i>
-        <div *ngIf="conversation.showDropdown" class="dropdown-menu">
+        <div *ngIf="conversation.showDropdown" class="dropdown-menu" style="border-top: none;">
           <ul>
             <li (click)="startRenaming(conversation)">
-              <i class="fas fa-pencil-alt" style="margin-right: 8px;"></i> Renommer
+              <i class="fas fa-pencil-alt" style="margin-right: 8px; color: #030640;"></i> Renommer
             </li>
             <li (click)="onDeleteConversation(conversation._id)">
-              <i class="fas fa-trash-alt" style="margin-right: 8px;"></i> Supprimer
+              <i class="fas fa-trash-alt" style="margin-right: 8px; color: #030640;"></i> Supprimer
             </li>
           </ul>
         </div>
       </h2>
     </div>
-    
   </div>
-  
+</div>
